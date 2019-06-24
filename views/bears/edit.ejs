@@ -1,0 +1,40 @@
+<% include ../partials/header %>
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center;">Edit <%= bear.name %></h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form action="/collections/<%= collection_id %>/bears/<%= bear._id %>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" type="text" name="bear[name]" value="<%= bear.name %>">
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input class="form-control" type="text" name="bear[image]" value="<%= bear.image %>">
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <input class="form-control" type="text" name="bear[type]" value="<%= bear.type %>">
+                </div>
+				<div class="form-group">
+                    <label for="material">Material</label>
+                    <input class="form-control" type="text" name="bear[material]" value="<%= bear.material %>">
+                </div>
+				<div class="form-group">
+                    <label for="price">Price</label>
+                    <input class="form-control" type="number" name="bear[price]" value="<%= bear.price %>" min="0.01" step="0.01">
+                </div>
+                    <label for="description">Description</label>
+                    <input class="form-control" type="text" name="bear[description]" value="<%= bear.description %>">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-info btn-block">Submit!</button>
+                </div>
+            </form>
+            <a href="/collections/<%= collection_id %>/bears/<%= bear._id %>">Go Back</a>
+        </div>
+
+    </div>
+    
+</div>
+<% include ../partials/footer %>

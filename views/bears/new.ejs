@@ -1,0 +1,41 @@
+<% include ../partials/header %>
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center;">Add a New Bear to <%= collection.name %></h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form action="/collections/<%= collection._id %>/bears" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" type="text" name="name" placeholder="name">
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input class="form-control" type="text" name="image" placeholder="image url">
+                </div>
+				<div class="form-group">
+                    <label for="type">Type</label>
+                    <input class="form-control" type="text" name="type" placeholder="type of animal(ex. Bear, Cat, Dog, etc...)">
+                </div>
+				<div class="form-group">
+                    <label for="material">Material</label>
+                    <input class="form-control" type="text" name="material" placeholder="material used for making the bear">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input class="form-control" type="number" name="price" placeholder="price" min="0.01" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control" type="text" name="description" placeholder="description">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                </div>
+            </form>
+            <a class="btn btn-sm btn-caution" href="/collections/<%= collection._id %>">Go Back</a>
+        </div>
+
+    </div>
+    
+</div>
+<% include ../partials/footer %>

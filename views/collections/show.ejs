@@ -1,0 +1,81 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">WeBears</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                    <h4><a><%= collection.name %></a></h4>
+                    <p><%= collection.description %></p>
+                    <p>
+                        <em>Submitted By <%= collection.author.username %></em>
+                    </p>
+                    <% if(currentUser && collection.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                        <a class="btn btn-warning" href="/collections/<%= collection._id %>/edit">Edit</a>
+                        <form class="delete-form" action="/collections/<%= collection._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+		</div>
+	<div class="row text-center" style="display:flex; flex-wrap: wrap;">
+		<div class="col-md-9">
+			<% collection.bears.forEach(function(bear){ %>
+				<div class="col-md-3 col-sm-6">
+					<div class="thumbnail">
+						<img class ="img-responsive" src="<%= bear.image %>">
+						<div class="caption">
+							<h4><%= bear.name %></h4>
+						</div>
+						<p>
+							<a href="/collections/<%= collection._id %>/bears/<%= bear._id %>" class="btn btn-primary">More Info</a>
+						</p>
+					</div>
+				</div>
+			<% }) %>
+			<% if(currentUser && collection.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+				<p>
+					<a class="btn btn-info btn-lg" href="/collections/<%= collection._id %>/bears/new">Add a new bear to your collection!</a>
+				</p>
+			<% } %>
+		</div>
+	</div>
+	<div class="well">
+		<div class="text-right">
+			<a class="btn btn-info" href="/collections/<%= collection._id %>/comments/new">Leave a Comment</a>
+		</div>
+		<hr>
+		<% collection.comments.forEach(function(comment){ %>
+			<div class="row">
+				<div class="col-md-12">
+					<strong><%= comment.author.username %></strong>
+					<span class="pull-right">10 days ago</span>
+					<p>
+						<%= comment.text %>
+					</p>
+					<% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+						<a class="btn btn-xs btn-warning" 
+						href="/collections/<%= collection._id %>/comments/<%= comment._id%>/edit">
+							Edit
+						</a>
+						<form class="delete-form" action="/collections/<%= collection._id %>/comments/<%= comment._id%>?_method=DELETE" method="POST">
+							<input type="submit" class="btn btn-xs btn-danger" value="Delete">
+						</form>
+					<% } %>
+				</div>
+			</div>
+
+		<% }) %>
+	</div>
+	<a class="btn btn-primary" id="backbutton" href="/collections">Go back</a>
+</div>
+
+<% include ../partials/footer %>
