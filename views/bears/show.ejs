@@ -1,54 +1,58 @@
 <% include ../partials/header %>
-<div class="container">
+
         <div class="col-md-9">
-            <div class="thumbnail">
-                <img class="img-responsive" src="<%= bear.image %>">
-                <div class="caption-full">
-                    <h4 class="pull-right">$<%= bear.price %></h4>
-                    <h4><a><%= bear.name %></a></h4>
-					<h5><a><%= bear.type %></a></h5>
-					<h5><a><%= bear.material %></a></h5>
-                    <p><%= bear.description %></p>
-                    <p>
-                        <em>Submitted By <%= bear.author.username %></em>
-                    </p>
-                    <% if(currentUser && bear.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                        <a class="btn btn-warning" href="/collections/<%= collection._id %>/bears/<%= bear._id %>/edit">Edit</a>
+			<div class="card mb-2">
+				  <img src="<%= bear.image %>" class="card-img-top" alt="<%= bear.name %>">
+				  <div class="card-body">
+					  <p class="float-right">$<%= bear.price %></p>
+					  <h4 class="card-title"><%= bear.name %></h5>
+					  <p>Type: <strong><%= bear.type %></strong></p>
+					  <p>Material: <strong><%= bear.material %></strong></p>
+					  <hr>
+					  <p class="card-text"><%= bear.description %></p>
+					  <% if(currentUser && bear.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                        <a class="btn btn-sm btn-warning" href="/collections/<%= collection._id %>/bears/<%= bear._id %>/edit">Edit</a>
                         <form class="delete-form" action="/collections/<%= collection._id %>/bears/<%= bear._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger">Delete</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
                         </form>
-                    <% } %>
-                </div>
-            </div>
-            <div class="well">
-                <div class="text-right">
-                    <a class="btn btn-info" href="/collections/<%= collection._id %>/bears/<%= bear._id %>/bcomments/new">Leave a Comment</a>
-                </div>
-                <hr>
-                <% bear.bcomments.forEach(function(bcomment){ %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong><%= bcomment.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
-                            <p>
-                                <%= bcomment.text %>
-                            </p>
-                            <% if(currentUser && bcomment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                                <a class="btn btn-xs btn-warning" 
-                                href="/collections/<%= collection._id %>/bears/<%= bear._id %>/bcomments/<%= bcomment._id%>/edit">
-                                    Edit
-                                </a>
-                                <form class="delete-form" action="/collections/<%= collection._id %>/bears/<%= bear._id %>/bcomments/<%= bcomment._id%>?_method=DELETE" method="POST">
-                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                </form>
-                            <% } %>
-                        </div>
-                    </div>
-                    
-                <% }) %>
-            </div>
-            <a class="btn btn-primary" id="backbutton" href="/collections/<%= collection._id %>">Go back</a>
+                      <% } %>
+				  </div>
+				</div>
+            <div class="card">
+				<div class="card-body">
+					
+					<div class="text-right">
+						<a class="btn btn-info" href="/collections/<%= collection._id %>/bears/<%= bear._id %>/bcomments/new">Leave a Comment</a>
+					</div>
+					<hr>
+					<div class="row">
+						<% bear.bcomments.forEach(function(bcomment){ %>
+
+						  <div class="col-md-12">
+							  <strong><%= bcomment.author.username %></strong>
+							  <span class="float-right">time filler</span>
+							  <p>
+								<%= bcomment.text %>
+							  </p>
+							  <% if(currentUser && bcomment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+									<a class="btn btn-sm btn-warning" 
+									  href="/collections/<%= collection._id %>/bears/<%= bear._id %>/bcomments/<%= bcomment._id%>/edit">
+										Edit
+									</a>
+								 <form class="delete-form" action="/collections/<%= collection._id %>/bears/<%= bear._id %>/bcomments/<%= bcomment._id%>?_method=DELETE" method="POST">
+										<input type="submit" class="btn btn-sm btn-danger" value="Delete">
+								 </form>
+							  <% } %>
+							  <hr>
+						  </div>
+						<% }) %>
+					</div>
+
+
+				</div>
+			</div>
+            <a class="btn btn-primary mt-3" id="backbutton" href="/collections/<%= collection._id %>">Go back</a>
         </div>
     </div>
-</div>
+
 <% include ../partials/footer %>

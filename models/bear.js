@@ -6,6 +6,10 @@ var bearSchema = new mongoose.Schema({
     type: String,
     material: String,
     price: String,
+	where: String,
+	when: String,
+	birthday: String,
+	artist: String,
     description: String,
     author: {
         id: {

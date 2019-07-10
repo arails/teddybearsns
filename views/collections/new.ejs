@@ -1,8 +1,10 @@
 <% include ../partials/header %>
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center;">Create a New Collection</h1>
-        <div style="width: 30%; margin: 25px auto;">
+	
+    <div class="row justify-content-center">
+		<div class="col-md-12 text-center">
+			<h1>Create a New Collection</h1>
+		</div>
+        <div class="col-xs-12 col-md-6 col-lg-5">
             <form action="/collections" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -21,5 +23,4 @@
 
     </div>
     
-</div>
 <% include ../partials/footer %>

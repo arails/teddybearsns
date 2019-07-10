@@ -2,29 +2,43 @@
 <html>
     <head>
         <title>WeBears</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 							crossorigin="anonymous">
         <link rel="stylesheet" href="/stylesheets/main.css">
     </head>
     <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">WeBears</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <% if(!currentUser){ %>
-                            <li><a href="/login">Login</a></li>
-                            <li><a href="/register">Sign Up</a></li>
-                        <% } else { %>
-                            <li><a href="#">Signed In As <%= currentUser.username %></a></li>
-                            <li><a href="/logout">Logout</a></li>
-                       <% } %>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        
+		<nav class="navbar navbar-expand-md navbar-dark mb-4">
+		  <img class="logo" src="/images/logo.svg" alt="">
+		  <a class="navbar-brand" href="/">WeBears</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto">
+			  <li class="nav-item <%= typeof page !== 'undefined' && page === 'collections' ? 'active' : '' %>">
+				<a class="nav-link" href="/collections">Collections</a>
+			  </li>
+			</ul>
+			<ul class="navbar-nav">
+                <% if(!currentUser){ %>                        
+					<li class="nav-item">
+						<a href="/login" class="nav-link">Login</a>
+					</li>
+                    <li class="nav-item">
+						<a href="/register" class="nav-link">Sign Up</a>
+					</li>
+                <% } else { %>
+                    <li class="nav-item">
+						<a href="#" class="nav-link">Signed In As <%= currentUser.username %></a>
+					</li>
+                    <li class="nav-item">
+						<a href="/logout" class="nav-link">Logout</a>
+					</li>
+               <% } %>
+			</ul>
+		  </div>
+		</nav>
+
+		
         <div class="container">
             <% if(error && error.length > 0)  { %>
                 <div class="alert alert-danger" role="alert">
@@ -38,3 +52,5 @@
             <% } %>
         </div>
         
+		<div class="container">
+

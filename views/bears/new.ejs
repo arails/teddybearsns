@@ -1,8 +1,10 @@
 <% include ../partials/header %>
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center;">Add a New Bear to <%= collection.name %></h1>
-        <div style="width: 30%; margin: 25px auto;">
+
+    <div class="row justify-content-center">
+		<div class="col-md-12 text-center">
+        	<h1>Add a New Bear to <%= collection.name %></h1>
+		</div>
+        <div class="col-xs-12 col-md-6 col-lg-5">
             <form action="/collections/<%= collection._id %>/bears" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -32,10 +34,9 @@
                     <button class="btn btn-lg btn-primary btn-block">Submit!</button>
                 </div>
             </form>
-            <a class="btn btn-sm btn-caution" href="/collections/<%= collection._id %>">Go Back</a>
+            <a class="btn btn-sm btn-danger" href="/collections/<%= collection._id %>">Go Back</a>
         </div>
 
     </div>
     
-</div>
 <% include ../partials/footer %>
