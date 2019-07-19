@@ -1,0 +1,36 @@
+<% include ../partials/header %>
+
+<div class="col-md-9">
+	<div class="card mb-2">
+		<div class="col-md-3">
+			<img src="<%= user.avatar %>" class="card-img-top mt-3 ml-1" alt="user profile image">	
+		</div>
+		<div class="card-body">
+			<h4 class="card-title"><%= user.username %></h5>
+			<p>Name: <strong><%= user.firstName + " " + user.lastName %></strong></p>
+			<p>E-mail: <strong><a href="mailto:<%= user.email %>"><%= user.email %></a></strong></p>
+			<p>Location: <strong><%= user.location %></strong></p>
+			<p class="card-text">About Me: <br><strong><%= user.aboutMe %></strong></p>
+		</div>
+	</div>
+	<div class="row text-center">
+		<div class="col-md-12">
+			<h3><%= user.username %>'s Collections</h3>
+		</div>
+		<% collections.forEach(function(collection){ %>
+
+			<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+				<div class="card">
+					<!-- <img src=" " class="card-img-top" alt="<%= collection.name %>"> -->
+					<div class="card-body">
+						<h5 class="card-title"><%= collection.name %></h5>
+						<a href="/collections/<%= collection._id %>" class="btn btn-primary">View Collection</a>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+
+	</div>
+</div>
+
+<% include ../partials/footer %>

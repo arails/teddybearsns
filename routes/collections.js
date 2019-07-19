@@ -5,14 +5,31 @@ var middleware = require("../middleware");
 
 //INDEX - show all collections
 router.get("/", function(req, res){
-        //Get all collections from DB
-    Collection.find({}, function(err, allCollections){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("collections/index", {collections:allCollections});
-        }
-    });
+	var noMatch = null;
+	if(req.query.search){
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		//Get collections from DB that match search criteria 
+    	Collection.find({name: regex}, function(err, allCollections){
+        	if(err){
+            	console.log(err);
+        	} else {
+				if (allCollections.length < 1) {
+					noMatch = "No collections match that query. Please try again.";
+				}
+            	res.render("collections/index", {collections:allCollections, noMatch: noMatch});
+        	}
+    	});
+	} else {
+		//Get all collections from DB
+    	Collection.find({}, function(err, allCollections){
+        	if(err){
+            	console.log(err);
+        	} else {
+            	res.render("collections/index", {collections:allCollections, noMatch: noMatch});
+        	}
+    	});
+	}
+        
 });
 
 //CREATE - add new collection to DB
@@ -87,6 +104,10 @@ router.delete("/:id", middleware.checkCollectionOwnership, function(req, res){
         }
     });
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 
 module.exports = router;

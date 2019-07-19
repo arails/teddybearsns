@@ -8,7 +8,7 @@
 					<h5 class="card-title"><%= collection.name %></h5>
 					<p class="card-text"><%= collection.description %></p>
 					<p>
-                        <em>Submitted By <%= collection.author.username %></em>
+                        <em>Submitted By <a href="/users/<%= collection.author.id %>"><%= collection.author.username %></a></em>
                     </p>
 					<% if(currentUser && collection.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                         <a class="btn btn-warning" href="/collections/<%= collection._id %>/edit">Edit</a>

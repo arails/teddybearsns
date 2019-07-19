@@ -8,6 +8,10 @@
 					  <h4 class="card-title"><%= bear.name %></h5>
 					  <p>Type: <strong><%= bear.type %></strong></p>
 					  <p>Material: <strong><%= bear.material %></strong></p>
+					  <p>Adopted from: <strong><%= bear.where %></strong></p>
+					  <p>Adopted on: <strong><%= bear.when %></strong></p>
+					  <p>Birthday: <strong><%= bear.birthday %></strong></p>
+					  <p>Made by: <strong><%= bear.artist %></strong></p>
 					  <hr>
 					  <p class="card-text"><%= bear.description %></p>
 					  <% if(currentUser && bear.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>

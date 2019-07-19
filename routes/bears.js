@@ -36,6 +36,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 						bear.type = req.body.type;
 						bear.material = req.body.material;
 						bear.price = req.body.price;
+						bear.where = req.body.where;
+						bear.when = req.body.when;
+						bear.birthday = req.body.birthday;
+						bear.artist = req.body.artist;
 						bear.description = req.body.description;
 						//add username and id to bear
                         bear.author.id = req.user._id;
