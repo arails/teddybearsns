@@ -2,6 +2,27 @@ var express = require("express");
 var router = express.Router();
 var Collection = require("../models/collection");
 var middleware = require("../middleware");
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'webears', 
+  api_key: '841871544649225', 
+  api_secret: '-B8xjZ0Qzqe6uBOXTjRh_LI3dYM'
+});
 
 //INDEX - show all collections
 router.get("/", function(req, res){
@@ -33,26 +54,30 @@ router.get("/", function(req, res){
 });
 
 //CREATE - add new collection to DB
-router.post("/", middleware.isLoggedIn, function(req, res){
-  // get data from form and add to collections array
-  var name = req.body.name;
-  var desc = req.body.description;
-  var author = {
-      id: req.user._id,
-      username: req.user.username
-  };
-    var newCollection = {name: name, description: desc, author:author};
-    // Create a new collection and save to DB
-    Collection.create(newCollection, function(err, newlyCreated){
-        if(err){
-            console.log(err);
-        } else {
-            //redirect back to collections page
-            console.log(newlyCreated);
-            res.redirect("/collections");
-        }
-    });
-  // });
+router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res){
+	cloudinary.uploader.upload(req.file.path, function(result) {
+		// add cloudinary url for the image to the campground object under image property
+		req.body.image = result.secure_url;
+		req.body.imageId = result.public_id;
+		// add author to campground
+		req.body.author = {
+			id: req.user._id,
+			username: req.user.username
+		};
+		Collection.create(req.body.collection, function(err, collection) {
+			if (err) {
+		    	req.flash('error', err.message);
+		    	return res.redirect('back');
+			}
+			collection.image = req.body.image;
+			collection.imageId = req.body.imageId;
+			collection.name = req.body.name;
+			collection.description = req.body.description;
+			collection.author = req.body.author;
+			collection.save();
+			res.redirect('/collections/' + collection.id);
+  		});
+	});
 });
 
 //NEW - show form to create new collection
@@ -81,33 +106,52 @@ router.get("/:id/edit", middleware.checkCollectionOwnership, function(req, res) 
     });
 });
 //UPDATE Collection ROUTE
-router.put("/:id", middleware.checkCollectionOwnership, function(req, res){
-    Collection.findByIdAndUpdate(req.params.id, req.body.collection, function(err, collection){
-        if(err){
-            req.flash("error", err.message);
-            res.redirect("back");
-        } else {
-            req.flash("success","Successfully Updated!");
-            res.redirect("/collections/" + collection._id);
-        }
+router.put("/:id", upload.single('image'), middleware.checkCollectionOwnership, function(req, res){
+   Collection.findById(req.params.id, async function(err, collection){
+       if(err){
+           res.redirect("back");
+       } else {
+		   	if (req.file) {
+				try {
+					await cloudinary.v2.uploader.destroy(collection.imageId);
+					var result = await cloudinary.v2.uploader.upload(req.file.path);
+					collection.imageId = result.public_id;
+					collection.image = result.secure_url;	
+				} catch(err){
+					req.flash("error", "Something went wrong");
+            		return res.redirect("back");
+				}
+			}
+		    collection.name = req.body.collection.name;
+			collection.description = req.body.collection.description;
+		    collection.save();
+            res.redirect("/collections/" + req.params.id);
+       }
     });
-  // });
 });
 
 //DESTROY Collection ROUTE
 router.delete("/:id", middleware.checkCollectionOwnership, function(req, res){
-    Collection.findByIdAndRemove(req.params.id, function(err){
+    Collection.findById(req.params.id, async function(err, collection){
         if(err){
-            res.redirect("/collections");
-        } else {
-            res.redirect("/collections");
+            req.flash("error", "Something went wrong");
+            res.redirect("back");
         }
+		try {
+			await cloudinary.v2.uploader.destroy(collection.imageId);
+			collection.remove();
+			req.flash("success", "Collection removed");
+            res.redirect("/collections");
+		} catch(err){
+				req.flash("error", "Something went wrong");
+            	return res.redirect("back");
+		}
     });
 });
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
-
+// turn off
 
 module.exports = router;

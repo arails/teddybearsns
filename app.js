@@ -20,7 +20,7 @@ var commentRoutes    = require("./routes/comments"),
 	bearRoutes		 = require("./routes/bears"),
 	bcommentRoutes  = require("./routes/bcomments"),
     indexRoutes      = require("./routes/index");
-mongoose.connect('mongodb+srv://devrails:freedom1@cluster0-u2lus.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGOOSE_CONNECT, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 }).then(() => {
@@ -34,11 +34,11 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-// seedDB(); //seed the database
+
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "My girlfriend really likes papillons!",
+    secret: process.env.PASSPORT_SECRET,
     resave: false,
     saveUninitialized: false
 }));

@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var bearSchema = new mongoose.Schema({
     name: String,
     image: String,
+	imageId: String,
     type: String,
     material: String,
     price: String,

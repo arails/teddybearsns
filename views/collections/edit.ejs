@@ -5,10 +5,14 @@
 			<h1>Edit <%= collection.name %></h1>
 		</div>
         <div class="col-xs-12 col-md-6 col-lg-5">
-            <form action="/collections/<%= collection._id %>?_method=PUT" method="POST">
+            <form action="/collections/<%= collection._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input class="form-control" type="text" name="collection[name]" value="<%= collection.name %>">
+                </div>
+				<div class="form-group">
+                    <label for="image">Image</label><br>
+                    <input type="file" id="image" name="image" accept="image/*">
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>

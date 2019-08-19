@@ -5,15 +5,15 @@
 			<h1>Edit <%= bear.name %></h1>
 		</div>
 		<div class="col-xs-12 col-md-6 col-lg-5">
-			<form action="/collections/<%= collection_id %>/bears/<%= bear._id %>?_method=PUT" method="POST">
+			<form action="/collections/<%= collection_id %>/bears/<%= bear._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="name">Name</label>
 					<input class="form-control" type="text" name="bear[name]" value="<%= bear.name %>">
 				</div>
 				<div class="form-group">
-					<label for="image">Image</label>
-					<input class="form-control" type="text" name="bear[image]" value="<%= bear.image %>">
-				</div>
+                    <label for="image">Image</label><br>
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
 				<div class="form-group">
 					<label for="type">Type</label>
 					<input class="form-control" type="text" name="bear[type]" value="<%= bear.type %>">
