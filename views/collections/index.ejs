@@ -32,7 +32,7 @@
 				  <img src="<%= collection.image %>" class="card-img-top" alt="<%= collection.name %>">
 				  <div class="card-body">
 					<h5 class="card-title"><%= collection.name %></h5>
-					<!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+					<p class="card-text"><em>Submitted by</em> <a href="/users/<%= collection.author.id %>"><%= collection.author.username %></a></p>
 					<a href="/collections/<%= collection._id %>" class="btn btn-primary">View Collection</a>
 				  </div>
 				</div>

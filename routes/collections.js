@@ -30,7 +30,7 @@ router.get("/", function(req, res){
 	if(req.query.search){
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		//Get collections from DB that match search criteria 
-    	Collection.find({name: regex}, function(err, allCollections){
+    	Collection.find({$or:[{name: regex},{"author.username": regex}]}, function(err, allCollections){
         	if(err){
             	console.log(err);
         	} else {

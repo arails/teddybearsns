@@ -2,6 +2,7 @@ var Collection = require("../models/collection");
 var Bear = require("../models/bear");
 var Comment = require("../models/comment");
 var Bcomment = require("../models/bcomment");
+var User = require("../models/user");
 //all the middleware goes here
 var middlewareObj = {};
 
@@ -95,6 +96,28 @@ middlewareObj.checkBcommentOwnership = function (req, res, next){
 			});
 		   }
 		});
+    } else {
+        req.flash("error", "You need to be logged in to do that");
+        res.redirect("back");
+    }
+};
+
+middlewareObj.checkUserOwnership = function (req, res, next){
+    if(req.isAuthenticated()){
+        User.findById(req.params.id, function(err, foundUser){
+            if(err || !foundUser){
+                req.flash("error", "User not found");
+                res.redirect("back");
+            } else {
+                //does user own comment?
+                if(foundUser._id.equals(req.user._id)) {
+                    next();
+                } else {
+                    req.flash("error", "You don't have permission to do that to do that");
+                    res.redirect("back");
+                }
+            }
+        });
     } else {
         req.flash("error", "You need to be logged in to do that");
         res.redirect("back");

@@ -11,6 +11,10 @@
 			<p>E-mail: <strong><a href="mailto:<%= user.email %>"><%= user.email %></a></strong></p>
 			<p>Location: <strong><%= user.location %></strong></p>
 			<p class="card-text">About Me: <br><strong><%= user.aboutMe %></strong></p>
+			<% if(currentUser && user._id.equals(currentUser._id)){ %>
+                        <a class="btn btn-warning" href="/users/<%= user._id %>/edit">Edit</a>
+						<a class="btn btn-warning" href="/change">Change your password</a>
+                    <% } %>
 		</div>
 	</div>
 	<div class="row text-center">
