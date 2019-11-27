@@ -124,15 +124,17 @@ router.post('/change', function(req, res, next) {
     },
     function(token, user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
+        host: 'smtp.zoho.com',
+		port: 465,
+		secure: true, //use SSL
         auth: {
-          user: 'webears.pass@gmail.com',
-          pass: process.env.GMAILPW
+          user: 'webears.pass@zohomail.com',
+          pass: process.env.ZOHOPW
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'webears.pass@gmail.com',
+        from: 'webears.pass@zohomail.com',
         subject: 'WeBears Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
