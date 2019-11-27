@@ -41,7 +41,13 @@ router.get("/register", function(req, res) {
 });
 //handle sign up logic
 router.post("/register", upload.single('image'), function(req, res) {
-	cloudinary.uploader.upload(req.file.path, function(result) {
+	cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+		if (err) {
+			//if error
+			console.log(err);
+			req.flash("error", "Can't upload image, try again later.");
+			return res.redirect("back");
+		}
 		// add cloudinary url for the image to the user object under image property
 		req.body.image = result.secure_url;
 		req.body.imageId = result.public_id;

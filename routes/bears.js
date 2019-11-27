@@ -48,7 +48,9 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
                 //create new bear
 		   		cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
   					if(err) {
-						req.flash('error', err.message);
+						//if error
+						console.log(err);
+						req.flash("error", "Can't upload image, try again later.");
 						return res.redirect('back');
 					}
 					// add cloudinary url for the image to the bear object under image property
