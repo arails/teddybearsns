@@ -19,9 +19,9 @@ var upload = multer({ storage: storage, fileFilter: imageFilter})
 
 var cloudinary = require('cloudinary');
 cloudinary.config({ 
-  cloud_name: 'webears', 
-  api_key: '841871544649225', 
-  api_secret: '-B8xjZ0Qzqe6uBOXTjRh_LI3dYM'
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.CLOUD_KEY, 
+  api_secret: process.env.CLOUD_SECRET,
 });
 
 //INDEX - show all collections
