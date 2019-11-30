@@ -58,7 +58,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 	cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
 		if (err) {
 			//if error
-			console.log(err);
+			console.log(err.message);
 			req.flash("error", "Can't upload image, try again later.");
 			return res.redirect("back");
 		}

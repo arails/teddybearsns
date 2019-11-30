@@ -44,7 +44,7 @@ router.post("/register", upload.single('image'), function(req, res) {
 	cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
 		if (err) {
 			//if error
-			console.log(err);
+			console.log(err.message);
 			req.flash("error", "Can't upload image, try again later.");
 			return res.redirect("back");
 		}
@@ -196,15 +196,17 @@ router.post('/reset/:token', function(req, res) {
     },
     function(user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
+        host: 'smtp.zoho.com',
+		port: 465,
+		secure: true, //use SSL
         auth: {
-          user: 'webears.pass@gmail.com',
-          pass: process.env.GMAILPW
+          user: 'webears.pass@zohomail.com',
+          pass: process.env.ZOHOPW
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'webears.pass@gmail.com',
+        from: 'webears.pass@zohomail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
